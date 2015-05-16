@@ -1,4 +1,4 @@
-c = require './const'
+c = require './util/const'
 
 worldWidth = c.TILE_SIZE * c.FIELD_WIDTH
 worldHeight = c.TILE_SIZE * c.FIELD_HEIGHT

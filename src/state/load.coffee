@@ -1,4 +1,4 @@
-c = require('../const')
+c = require('../util/const')
 
 state = {}
 
@@ -6,7 +6,8 @@ state.preload = ->
     state.load.baseURL = './assets/'
 
 state.create = ->
-    (state.load.image "#{color}_square", "element_#{color}_square.png") for color in c.COLORS
+    for color in c.COLORS
+        state.load.image "#{color}_square", "element_#{color}_square.png"
     state.load.start()
     state.add.text(0, 0, "Loading assets...")
     

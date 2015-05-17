@@ -12,33 +12,46 @@ state.create = ->
             jewels.add state.add.existing new Jewel conv.tileToWorld(i, j)...
     state.input.onUp.add ->
         state.physics.arcade.getObjectsUnderPointer state.input.activePointer,
-            jewels, (pointer, jewel)->
-                console.log jewel
-                [x, y] = conv.worldToTile jewel.x, jewel.y
-                #jewel.kill() if jewel.color is 'blue'
-                clearJewel(jewel, jewel.color)
-        # get Jewel under pointer
-        # recursive foreach adjacent jewel
-        # destroy
+            jewels, (pointer, jewel) ->
+                console.log jewel.color
+                toDestroy = []
+                toDestroy.push jewel
+                clearJewel jewel, toDestroy
+                toDestroy.forEach (j) ->
+                    j.kill()
     
 state.update = ->
 
-clearJewel = (jewel, color) ->
+clearJewel = (jewel, toDestroy) ->
     [x, y] = conv.worldToTile(jewel.x, jewel.y)
     console.log x, y
     adjacent = []
     # left
-    if x > 0 then adjacent.push getAdjacentJewel jewel, -1, 0
+    if x > 0
+        adj = getAdjacentJewel jewel, -1, 0
+        if adj and adj not in toDestroy and adj.color is jewel.color
+            adjacent.push adj
+            toDestroy.push adj
     # up
-    if y > 0 then adjacent.push getAdjacentJewel jewel, 0, -1
+    if y > 0
+        adj = getAdjacentJewel jewel, 0, -1
+        if adj and adj not in toDestroy and adj.color is jewel.color
+            adjacent.push adj
+            toDestroy.push adj
     # right
-    if x < 9 then adjacent.push getAdjacentJewel jewel, 1, 0
+    if x < c.FIELD_WIDTH - 1
+        adj = getAdjacentJewel jewel, 1, 0
+        if adj and adj not in toDestroy and adj.color is jewel.color
+            adjacent.push adj
+            toDestroy.push adj
     # down
-    if y < 9 then adjacent.push getAdjacentJewel jewel, 0, 1
-    jewel.kill()
-    for j in adjacent when j.color is color
-        if j
-            clearJewel j, color
+    if y < c.FIELD_HEIGHT - 1
+        adj = getAdjacentJewel jewel, 0, 1
+        if adj and adj not in toDestroy and adj.color is jewel.color
+            adjacent.push adj
+            toDestroy.push adj
+    for j in adjacent when j.color is jewel.color
+        clearJewel j, toDestroy
 
 getAdjacentJewel = (jewel, x, y) ->
     state.physics.arcade.getObjectsAtLocation(jewel.x + x * c.TILE_SIZE,

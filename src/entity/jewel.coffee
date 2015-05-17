@@ -11,6 +11,5 @@ class Jewel extends Phaser.Sprite
             new Phaser.Rectangle 0, 0, game.world.width, game.world.height
         this.input.enableSnap c.TILE_SIZE, c.TILE_SIZE, false, true
         this.events.onDragStop.add =>
-            console.log conv.worldToTile @x, @y
             
 module.exports = Jewel

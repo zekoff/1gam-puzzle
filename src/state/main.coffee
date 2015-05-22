@@ -11,14 +11,22 @@ state.create = ->
         for j in [0..c.FIELD_HEIGHT - 1]
             jewels.add state.add.existing new Jewel conv.tileToWorld(i, j)...
     state.input.onUp.add ->
-        state.physics.arcade.getObjectsUnderPointer state.input.activePointer,
-            jewels, (pointer, jewel) ->
+        underPointer = state.physics.arcade.getObjectsUnderPointer(
+            state.input.activePointer, jewels)
+        if underPointer.length is 1
+            underPointer.forEach (jewel) ->
                 console.log jewel.color
                 toDestroy = []
                 toDestroy.push jewel
                 clearJewel jewel, toDestroy
                 toDestroy.forEach (j) ->
                     j.kill()
+        else if underPointer.length > 1
+            console.log 'swap'
+            #swap jewels
+            underPointer.forEach (jewel) ->
+                [jewel.x, jewel.y] = [jewel.prevX, jewel.prevY]
+                jewel.body.reset(jewel.x, jewel.y)
     
 state.update = ->
 

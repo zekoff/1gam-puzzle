@@ -2,3 +2,5 @@ phaser.min.js
 bin/
 bundle.js
 complete_asset_pack/
+open_issues.md
+notes.md

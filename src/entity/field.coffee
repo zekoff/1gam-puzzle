@@ -7,6 +7,10 @@ A Field is where all the jewels are held, and where the action takes place. It
 provides a nice interface to a tile-driven coordinate system instead of the
 pixel-driven system of the Phaser game world. It can be offset inside the game
 world to account for HUD elements around the edges.
+
+In a less Phaser-specific implementation, Field could contain a two-dimensional
+array of Jewels, addressed by their row and column. This would make the process
+of getting a particular jewel a little more straightforward.
 ###
 class Field extends Phaser.Group
     constructor: (x = 0, y = 0) ->
@@ -14,7 +18,9 @@ class Field extends Phaser.Group
         @x = x; @y = y
         for i in [0..c.FIELD_WIDTH - 1]
             for j in [0..c.FIELD_HEIGHT - 1]
-                @add new Jewel(i, j)
+                @add new Jewel(@, i, j)
+                
+    currentJewel: null
     
     getAdjacentJewels: (jewel) ->
         console.log 'returning adjacent jewels'
@@ -51,6 +57,6 @@ class Field extends Phaser.Group
             
     getAdjacentJewel: (jewel, x,y) ->
         game.physics.arcade.getObjectsAtLocation(jewel.x + x * c.TILE_SIZE,
-            jewel.y + y * c.TILE_SIZE, this)[0]
+            jewel.y + y * c.TILE_SIZE, @)[0]
         
 module.exports = Field

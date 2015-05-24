@@ -4,15 +4,13 @@ c = require '../util/const'
 conv = require '../util/convert'
 
 state = {}
-jewels = null
 field = null
 
 state.create = ->
     field = new Field
-    jewels = field.jewels
     state.input.onUp.add ->
         underPointer = state.physics.arcade.getObjectsUnderPointer(
-            state.input.activePointer, jewels)
+            state.input.activePointer, field)
         if underPointer.length is 1
             underPointer.forEach (jewel) ->
                 console.log jewel.color
@@ -63,6 +61,6 @@ clearJewel = (jewel, toDestroy) ->
 
 getAdjacentJewel = (jewel, x, y) ->
     state.physics.arcade.getObjectsAtLocation(jewel.x + x * c.TILE_SIZE,
-        jewel.y + y * c.TILE_SIZE, jewels)[0]
+        jewel.y + y * c.TILE_SIZE, field)[0]
     
 module.exports = state

@@ -2,20 +2,18 @@ c = require('../util/const')
 conv = require('../util/convert')
 
 class Jewel extends Phaser.Sprite
-    constructor: (x, y, @color) ->
+    constructor: (@tileX, @tileY, @color) ->
         @color ?= game.rnd.pick(c.COLORS)
-        [x, y] = conv.tileToWorld(x, y)
+        [x, y] = conv.tileToWorld(@tileX, @tileY)
         super game, x, y, "#{@color}_square"
-        this.anchor.set(0.5)
-        game.physics.arcade.enable(this)
-        this.inputEnabled = true
-        this.input.enableDrag false, false, false, 255,
+        @anchor.set(0.5)
+        game.physics.arcade.enable(@)
+        @inputEnabled = true
+        @input.enableDrag false, false, false, 255,
             new Phaser.Rectangle 0, 0, game.world.width, game.world.height
-        #this.input.dragFromCenter = true
-        this.input.enableSnap c.TILE_SIZE, c.TILE_SIZE, false, true
-        this.events.onInputDown.add =>
-            [this.prevX, this.prevY] = [this.x, this.y]
-        this.events.onInputUp.add =>
-            console.log(this.input.dragStartPoint.x, this.input.dragStartPoint.y)
+        @input.enableSnap c.TILE_SIZE, c.TILE_SIZE, false, true
+        @events.onInputDown.add =>
+            [@prevX, @prevY] = [@tileX, @tileY]
+        @events.onInputUp.add =>
             
 module.exports = Jewel

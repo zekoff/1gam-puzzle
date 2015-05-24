@@ -26,10 +26,10 @@ class Jewel extends Phaser.Sprite
             @field.currentJewel = @
         @events.onInputUp.add =>
             # swap, destroy, or return to initial location
-            @field.currentJewel = null
             underPointer = game.physics.arcade.getObjectsUnderPointer(
                 game.input.activePointer, @field)
             if underPointer.length is 1
+                # destroy
                 underPointer.forEach (jewel) =>
                     console.log jewel.color
                     toDestroy = []
@@ -37,11 +37,26 @@ class Jewel extends Phaser.Sprite
                     @field.clearJewel jewel, toDestroy
                     toDestroy.forEach (j) ->
                         j.kill()
-            else if underPointer.length > 1
-                console.log 'swap'
-                #swap jewels
-                underPointer.forEach (jewel) ->
-                    [jewel.x, jewel.y] = [jewel.prevX, jewel.prevY]
-                    jewel.body.reset(jewel.x, jewel.y)
+            else if underPointer.length > 1 # should never be > 2
+                # swap
+                targetJewel = null
+                underPointer.forEach (jewel) =>
+                    if jewel != @field.currentJewel
+                        targetJewel = jewel
+                # drop currentJewel to this tile
+                [oldX, oldY] = [@field.currentJewel.prevX, @field.currentJewel.prevY]
+                @sendToTile(@field.currentJewel, targetJewel.tileX, targetJewel.tileY)
+                # tween targetJewel to old tile of currentJewel
+                @sendToTile(targetJewel, oldX, oldY)
+            @field.currentJewel = null
+            
+    sendToTile: (jewel, x, y) ->
+        jewel.x = x * c.TILE_SIZE + c.TILE_SIZE / 2
+        jewel.y = y * c.TILE_SIZE + c.TILE_SIZE / 2
+        jewel.tileX = x
+        jewel.tileY = y
+        jewel.prevX = x
+        jewel.prevY = y
+        jewel.body.reset(jewel.x, jewel.y)
             
 module.exports = Jewel

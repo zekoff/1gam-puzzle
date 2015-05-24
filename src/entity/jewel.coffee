@@ -11,6 +11,7 @@ class Jewel extends Phaser.Sprite
         this.inputEnabled = true
         this.input.enableDrag false, false, false, 255,
             new Phaser.Rectangle 0, 0, game.world.width, game.world.height
+        #this.input.dragFromCenter = true
         this.input.enableSnap c.TILE_SIZE, c.TILE_SIZE, false, true
         this.events.onInputDown.add =>
             [this.prevX, this.prevY] = [this.x, this.y]

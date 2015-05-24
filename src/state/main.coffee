@@ -1,15 +1,15 @@
-Jewel = require('../entity/jewel')
-c = require('../util/const')
-conv = require('../util/convert')
+Jewel = require '../entity/jewel'
+Field = require '../entity/field'
+c = require '../util/const'
+conv = require '../util/convert'
 
 state = {}
 jewels = null
+field = null
 
 state.create = ->
-    jewels = state.add.group()
-    for i in [0..c.FIELD_WIDTH - 1]
-        for j in [0..c.FIELD_HEIGHT - 1]
-            jewels.add state.add.existing new Jewel(i, j)
+    field = new Field
+    jewels = field.jewels
     state.input.onUp.add ->
         underPointer = state.physics.arcade.getObjectsUnderPointer(
             state.input.activePointer, jewels)

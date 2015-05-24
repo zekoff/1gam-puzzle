@@ -9,7 +9,7 @@ state.create = ->
     jewels = state.add.group()
     for i in [0..c.FIELD_WIDTH - 1]
         for j in [0..c.FIELD_HEIGHT - 1]
-            jewels.add state.add.existing new Jewel conv.tileToWorld(i, j)...
+            jewels.add state.add.existing new Jewel(i, j)
     state.input.onUp.add ->
         underPointer = state.physics.arcade.getObjectsUnderPointer(
             state.input.activePointer, jewels)

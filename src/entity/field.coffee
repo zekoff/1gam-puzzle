@@ -29,6 +29,7 @@ class Field extends Phaser.Group
         toDestroy = []
         toDestroy.push jewel
         @clearJewel jewel, toDestroy
+        # calculate score based on toDestroy.length
         toDestroy.forEach (j) =>
             newJ = new Jewel(@, j.tileX, j.tileY)
             newJ.scale.set(0)
@@ -37,6 +38,11 @@ class Field extends Phaser.Group
                 x: 1
                 y: 1
             }, 300).start()
+            emitter = game.add.emitter(j.x + @x, j.y + @y)
+            emitter.makeParticles("#{j.color}_square")
+            emitter.setScale(0.2, 0.4, 0.2, 0.4)
+            # despite what the docs say, must explicitly pass # of particles
+            emitter.start(true, 200, null, 10)
             j.kill()
             
     swapCurrentJewelWith: (target) ->

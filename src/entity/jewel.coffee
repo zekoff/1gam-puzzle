@@ -59,7 +59,7 @@ class Jewel extends Phaser.Sprite
                 # tween targetJewel to old tile of currentJewel
                 @sendToTile(targetJewel, oldX, oldY)
             @field.currentJewel = null
-            
+
     sendToTile: (jewel, tx, ty) ->
         jewel.bringToTop()
         jewel.tileX = tx

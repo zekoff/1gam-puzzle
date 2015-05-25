@@ -12,6 +12,8 @@ In a less Phaser-specific implementation, Field could contain a two-dimensional
 array of Jewels, addressed by their row and column. This would make the process
 of getting a particular jewel a little more straightforward.
 ###
+particleEmitters = {}
+
 class Field extends Phaser.Group
     constructor: (x = 0, y = 0) ->
         super(game)
@@ -19,8 +21,19 @@ class Field extends Phaser.Group
         for i in [0..c.FIELD_WIDTH - 1]
             for j in [0..c.FIELD_HEIGHT - 1]
                 @add new Jewel(@, i, j)
+        for color in c.COLORS
+            emitter = game.add.emitter(0, 0, 400)
+            emitter.makeParticles("#{color}_square")
+            emitter.setScale(0.2, 0.4, 0.2, 0.4)
+            particleEmitters[color] = emitter
                 
     currentJewel: null
+    
+    emitParticles: (color, x, y) ->
+        particleEmitters[color].x = @x + x
+        particleEmitters[color].y = @y + y
+        # despite what the docs say, must explicitly pass # of particles
+        particleEmitters[color].start(true, 200, null, 10)
     
     getAdjacentJewels: (jewel) ->
         console.log 'returning adjacent jewels'
@@ -38,11 +51,7 @@ class Field extends Phaser.Group
                 x: 1
                 y: 1
             }, 300).start()
-            emitter = game.add.emitter(j.x + @x, j.y + @y)
-            emitter.makeParticles("#{j.color}_square")
-            emitter.setScale(0.2, 0.4, 0.2, 0.4)
-            # despite what the docs say, must explicitly pass # of particles
-            emitter.start(true, 200, null, 10)
+            @emitParticles(j.color, j.x, j.y)
             j.kill()
             
     swapCurrentJewelWith: (target) ->

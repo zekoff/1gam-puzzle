@@ -12,8 +12,6 @@ In a less Phaser-specific implementation, Field could contain a two-dimensional
 array of Jewels, addressed by their row and column. This would make the process
 of getting a particular jewel a little more straightforward.
 ###
-particleEmitters = {}
-
 class Field extends Phaser.Group
     constructor: (x = 0, y = 0) ->
         super(game)
@@ -25,15 +23,21 @@ class Field extends Phaser.Group
             emitter = game.add.emitter(0, 0, 400)
             emitter.makeParticles("#{color}_square")
             emitter.setScale(0.2, 0.4, 0.2, 0.4)
-            particleEmitters[color] = emitter
+            @particleEmitters[color] = emitter
                 
     currentJewel: null
+    scoreListeners: []
+    particleEmitters: {}
+    
+    addScoreListener: (listener) ->
+        @scoreListeners.push listener
+        listener.setField @
     
     emitParticles: (color, x, y) ->
-        particleEmitters[color].x = @x + x
-        particleEmitters[color].y = @y + y
+        @particleEmitters[color].x = @x + x
+        @particleEmitters[color].y = @y + y
         # despite what the docs say, must explicitly pass # of particles
-        particleEmitters[color].start(true, 200, null, 10)
+        @particleEmitters[color].start(true, 200, null, 10)
     
     getAdjacentJewels: (jewel) ->
         console.log 'returning adjacent jewels'
@@ -42,7 +46,8 @@ class Field extends Phaser.Group
         toDestroy = []
         toDestroy.push jewel
         @clearJewel jewel, toDestroy
-        # calculate score based on toDestroy.length
+        @scoreListeners.forEach (scorer) ->
+            scorer.preDestroy toDestroy
         toDestroy.forEach (j) =>
             newJ = new Jewel(@, j.tileX, j.tileY)
             newJ.scale.set(0)

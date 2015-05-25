@@ -10,3 +10,4 @@ module.exports =
         'red'
         'yellow'
     ]
+    TWEEN_TIME_MS: 100

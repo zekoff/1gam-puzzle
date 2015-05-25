@@ -20,7 +20,6 @@ class Jewel extends Phaser.Sprite
         @inputEnabled = true
         @input.enableDrag false, false, false, 255,
             new Phaser.Rectangle 0, 0, game.world.width, game.world.height
-        @input.enableSnap c.TILE_SIZE, c.TILE_SIZE, false, true
         @events.onInputDown.add =>
             [@prevX, @prevY] = [@tileX, @tileY]
             @field.currentJewel = @
@@ -50,13 +49,15 @@ class Jewel extends Phaser.Sprite
                 @sendToTile(targetJewel, oldX, oldY)
             @field.currentJewel = null
             
-    sendToTile: (jewel, x, y) ->
-        jewel.x = x * c.TILE_SIZE + c.TILE_SIZE / 2
-        jewel.y = y * c.TILE_SIZE + c.TILE_SIZE / 2
-        jewel.tileX = x
-        jewel.tileY = y
-        jewel.prevX = x
-        jewel.prevY = y
-        jewel.body.reset(jewel.x, jewel.y)
+    sendToTile: (jewel, tx, ty) ->
+        jewel.tileX = tx
+        jewel.tileY = ty
+        jewel.prevX = tx
+        jewel.prevY = ty
+        tween = game.tweens.create(jewel)
+        tween.to({
+            x:tx * c.TILE_SIZE + c.TILE_SIZE / 2,
+            y:ty * c.TILE_SIZE + c.TILE_SIZE / 2}
+        , c.TWEEN_TIME_MS).start()
             
 module.exports = Jewel

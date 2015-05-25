@@ -8,15 +8,16 @@ state.preload = ->
     game.scale.pageAlignHorizontally = true
     game.scale.pageAlignVertically = true
     game.input.maxPointers = 1
-    state.load.baseURL = './assets/'
+    game.load.baseURL = './assets/'
 
 state.create = ->
     for color in c.COLORS
-        state.load.image "#{color}_square", "element_#{color}_square.png"
-    state.load.start()
-    state.add.text(0, 0, "Loading assets...")
+        game.load.image("#{color}_square", "element_#{color}_square.png")
+    game.load.image("timer_bar", "timer_bar.png")
+    game.load.start()
+    game.add.text(0, 0, "Loading assets...")
     
 state.update = ->
-    state.game.state.start 'title' if state.load.hasLoaded
+    game.state.start 'title' if game.load.hasLoaded
 
 module.exports = state

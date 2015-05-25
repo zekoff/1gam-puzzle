@@ -1,6 +1,6 @@
 c = require './util/const'
 
-global.game = new Phaser.Game 172, 306
+global.game = new Phaser.Game(c.WORLD_WIDTH_PX, c.WORLD_HEIGHT_PX)
 
 game.state.add 'main', require './state/main'
 game.state.add 'load', require './state/load'

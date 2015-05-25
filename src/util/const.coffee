@@ -1,7 +1,7 @@
 module.exports =
     TILE_SIZE: 32
-    FIELD_WIDTH: 8
-    FIELD_HEIGHT: 12
+    FIELD_WIDTH: 6
+    FIELD_HEIGHT: 9
     COLORS: [
         'blue'
         'green'

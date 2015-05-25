@@ -21,6 +21,7 @@ class Jewel extends Phaser.Sprite
         @input.enableDrag false, false, false, 255,
             new Phaser.Rectangle 0, 0, game.world.width, game.world.height
         @events.onInputDown.add =>
+            @bringToTop()
             [@prevX, @prevY] = [@tileX, @tileY]
             @field.currentJewel = @
         @events.onInputUp.add =>
@@ -34,7 +35,17 @@ class Jewel extends Phaser.Sprite
                     toDestroy = []
                     toDestroy.push jewel
                     @field.clearJewel jewel, toDestroy
-                    toDestroy.forEach (j) ->
+                    toDestroy.forEach (j) =>
+                        # mark location
+                        # create new jewel offscreen to fill this spot
+                        newJewel = new Jewel(j.field, j.tileX, j.tileY)
+                        newJewel.scale.set(0)
+                        j.field.add(newJewel)
+                        # tween new jewel to old location
+                        game.tweens.create(newJewel.scale).to({
+                            x: 1
+                            y: 1
+                        }, 300).start()
                         j.kill()
             else if underPointer.length > 1 # should never be > 2
                 # swap
@@ -50,14 +61,14 @@ class Jewel extends Phaser.Sprite
             @field.currentJewel = null
             
     sendToTile: (jewel, tx, ty) ->
+        jewel.bringToTop()
         jewel.tileX = tx
         jewel.tileY = ty
         jewel.prevX = tx
         jewel.prevY = ty
-        tween = game.tweens.create(jewel)
-        tween.to({
-            x:tx * c.TILE_SIZE + c.TILE_SIZE / 2,
-            y:ty * c.TILE_SIZE + c.TILE_SIZE / 2}
-        , c.TWEEN_TIME_MS).start()
+        tween = game.tweens.create(jewel).to({
+            x:tx * c.TILE_SIZE + c.TILE_SIZE / 2
+            y:ty * c.TILE_SIZE + c.TILE_SIZE / 2
+        }, c.TWEEN_TIME_MS).start()
             
 module.exports = Jewel

@@ -11,19 +11,17 @@ field = null
 scorer = new TimedScorer
 
 TOTAL_TIME = 10000
-timeLeft = null
+timeLeft = 1
 
 state.create = ->
     hud = new Hud()
     field = new Field(6, 44)
     field.addScoreListener scorer
-    timeLeft = TOTAL_TIME
     
 state.update = ->
-    if scorer.lastDestroyed > 2
-        timeLeft = TOTAL_TIME
-        scorer.lastDestroyed = 0
-    percentage = (timeLeft-=game.time.physicsElapsedMS) / TOTAL_TIME
-    hud.updateTimer(percentage) if percentage > 0
+    timeLeft += scorer.getTimeBonus()
+    timeLeft = 1 if timeLeft > 1
+    timeLeft -= game.time.physicsElapsedMS / TOTAL_TIME
+    hud.updateTimer(timeLeft) if timeLeft > 0
 
 module.exports = state

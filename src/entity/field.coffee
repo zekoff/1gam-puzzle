@@ -56,7 +56,7 @@ class Field extends Phaser.Group
             @clearJewel j, toDestroy
             
     getAdjacentJewel: (jewel, x,y) ->
-        game.physics.arcade.getObjectsAtLocation(jewel.x + x * c.TILE_SIZE,
-            jewel.y + y * c.TILE_SIZE, @)[0]
+        game.physics.arcade.getObjectsAtLocation(@x + jewel.x + x * c.TILE_SIZE,
+            @y + jewel.y + y * c.TILE_SIZE, @)[0]
         
 module.exports = Field

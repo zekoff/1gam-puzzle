@@ -7,7 +7,7 @@ state = {}
 field = null
 
 state.create = ->
-    field = new Field
+    field = new Field(6, 44)
     
 state.update = ->
 

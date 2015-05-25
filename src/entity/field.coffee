@@ -25,6 +25,25 @@ class Field extends Phaser.Group
     getAdjacentJewels: (jewel) ->
         console.log 'returning adjacent jewels'
         
+    destroyJewel: (jewel) ->
+        toDestroy = []
+        toDestroy.push jewel
+        @clearJewel jewel, toDestroy
+        toDestroy.forEach (j) =>
+            newJ = new Jewel(@, j.tileX, j.tileY)
+            newJ.scale.set(0)
+            @.add(newJ)
+            game.tweens.create(newJ.scale).to({
+                x: 1
+                y: 1
+            }, 300).start()
+            j.kill()
+            
+    swapCurrentJewelWith: (target) ->
+        [oldX, oldY] = [@currentJewel.prevX, @currentJewel.prevY]
+        @currentJewel.sendToTile(target.tileX, target.tileY)
+        target.sendToTile(oldX, oldY)
+        
     clearJewel: (jewel, toDestroy) ->
         [x, y] = conv.worldToTile(jewel.x, jewel.y)
         adjacent = []
@@ -54,8 +73,8 @@ class Field extends Phaser.Group
                 toDestroy.push adj
         for j in adjacent when j.color is jewel.color
             @clearJewel j, toDestroy
-            
-    getAdjacentJewel: (jewel, x,y) ->
+                
+    getAdjacentJewel: (jewel, x, y) ->
         game.physics.arcade.getObjectsAtLocation(@x + jewel.x + x * c.TILE_SIZE,
             @y + jewel.y + y * c.TILE_SIZE, @)[0]
         

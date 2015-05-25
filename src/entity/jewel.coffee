@@ -25,48 +25,25 @@ class Jewel extends Phaser.Sprite
             [@prevX, @prevY] = [@tileX, @tileY]
             @field.currentJewel = @
         @events.onInputUp.add =>
-            # swap, destroy, or return to initial location
             underPointer = game.physics.arcade.getObjectsUnderPointer(
                 game.input.activePointer, @field)
             if underPointer.length is 1
-                # destroy
-                underPointer.forEach (jewel) =>
-                    console.log jewel.color
-                    toDestroy = []
-                    toDestroy.push jewel
-                    @field.clearJewel jewel, toDestroy
-                    toDestroy.forEach (j) =>
-                        # mark location
-                        # create new jewel offscreen to fill this spot
-                        newJewel = new Jewel(j.field, j.tileX, j.tileY)
-                        newJewel.scale.set(0)
-                        j.field.add(newJewel)
-                        # tween new jewel to old location
-                        game.tweens.create(newJewel.scale).to({
-                            x: 1
-                            y: 1
-                        }, 300).start()
-                        j.kill()
+                @field.destroyJewel(@field.currentJewel)
             else if underPointer.length > 1 # should never be > 2
-                # swap
                 targetJewel = null
                 underPointer.forEach (jewel) =>
                     if jewel != @field.currentJewel
                         targetJewel = jewel
-                # drop currentJewel to this tile
-                [oldX, oldY] = [@field.currentJewel.prevX, @field.currentJewel.prevY]
-                @sendToTile(@field.currentJewel, targetJewel.tileX, targetJewel.tileY)
-                # tween targetJewel to old tile of currentJewel
-                @sendToTile(targetJewel, oldX, oldY)
+                @field.swapCurrentJewelWith targetJewel
             @field.currentJewel = null
 
-    sendToTile: (jewel, tx, ty) ->
-        jewel.bringToTop()
-        jewel.tileX = tx
-        jewel.tileY = ty
-        jewel.prevX = tx
-        jewel.prevY = ty
-        tween = game.tweens.create(jewel).to({
+    sendToTile: (tx, ty) ->
+        @bringToTop()
+        @tileX = tx
+        @tileY = ty
+        @prevX = tx
+        @prevY = ty
+        tween = game.tweens.create(@).to({
             x:tx * c.TILE_SIZE + c.TILE_SIZE / 2
             y:ty * c.TILE_SIZE + c.TILE_SIZE / 2
         }, c.TWEEN_TIME_MS).start()

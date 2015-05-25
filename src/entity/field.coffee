@@ -49,6 +49,10 @@ class Field extends Phaser.Group
         @scoreListeners.forEach (scorer) ->
             scorer.preDestroy toDestroy
         toDestroy.forEach (j) =>
+            j.kill()
+        @scoreListeners.forEach (scorer) ->
+            scorer.preRefill()
+        toDestroy.forEach (j) =>
             newJ = new Jewel(@, j.tileX, j.tileY)
             newJ.scale.set(0)
             @.add(newJ)
@@ -57,7 +61,6 @@ class Field extends Phaser.Group
                 y: 1
             }, 300).start()
             @emitParticles(j.color, j.x, j.y)
-            j.kill()
             
     swapCurrentJewelWith: (target) ->
         [oldX, oldY] = [@currentJewel.prevX, @currentJewel.prevY]

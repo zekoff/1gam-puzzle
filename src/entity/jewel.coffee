@@ -19,7 +19,8 @@ class Jewel extends Phaser.Sprite
         game.physics.arcade.enable(@)
         @inputEnabled = true
         @input.enableDrag false, false, false, 255,
-            new Phaser.Rectangle 0, 0, game.world.width, game.world.height
+            new Phaser.Rectangle 0, 0, c.FIELD_WIDTH * c.TILE_SIZE,
+            c.FIELD_HEIGHT * c.TILE_SIZE
         @events.onInputDown.add =>
             @bringToTop()
             [@prevX, @prevY] = [@tileX, @tileY]

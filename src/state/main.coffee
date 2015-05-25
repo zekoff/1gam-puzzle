@@ -10,7 +10,7 @@ hud = null
 field = null
 scorer = new TimedScorer
 
-TOTAL_TIME = 10000
+TOTAL_TIME = 15000
 timeLeft = 1
 
 state.create = ->

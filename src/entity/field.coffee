@@ -24,10 +24,13 @@ class Field extends Phaser.Group
             emitter.makeParticles("#{color}_square")
             emitter.setScale(0.2, 0.4, 0.2, 0.4)
             @particleEmitters[color] = emitter
+        for n in [1..7]
+            dingSounds[n] = game.add.audio("ding#{n}")
                 
     currentJewel: null
     scoreListeners: []
     particleEmitters: {}
+    dingSounds = {}
     
     addScoreListener: (listener) ->
         @scoreListeners.push listener
@@ -61,6 +64,9 @@ class Field extends Phaser.Group
                 y: 1
             }, 300).start()
             @emitParticles(j.color, j.x, j.y)
+        #n = game.rnd.integerInRange 1, 7
+        #game.add.audio("ding#{n}").play()
+        dingSounds[game.rnd.integerInRange 1, 7].play()
             
     swapCurrentJewelWith: (target) ->
         [oldX, oldY] = [@currentJewel.prevX, @currentJewel.prevY]

@@ -25,15 +25,15 @@ class Hud extends Phaser.Group
     TIMER_HEIGHT = 10
     constructor: ->
         super(game)
-        @timerBackground = game.add.sprite(26, 6, 'timer_bar')
+        @timerBackground = game.add.sprite(26, 8, 'timer_bar')
         @timerBackground.width = TIMER_WIDTH
         @timerBackground.height = TIMER_HEIGHT
-        @timer = game.add.sprite(26, 6, 'timer_bar')
+        @timer = game.add.sprite(26, 8, 'timer_bar')
         @timer.tint = 0x00FF00
         @timer.height = TIMER_HEIGHT
         @timer.width = TIMER_WIDTH / 2
         messages = game.add.group()
-        scoreText = game.add.text(c.WORLD_WIDTH_PX / 2, 32, "Score: 0",
+        scoreText = game.add.text(c.WORLD_WIDTH_PX / 2, 33, "Score: 0",
             SCORE_STYLE, @)
         scoreText.anchor.set(0.5)
         

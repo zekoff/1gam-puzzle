@@ -6,20 +6,24 @@ c = require '../util/const'
 conv = require '../util/convert'
 
 state = {}
+
 hud = null
 field = null
-scorer = new TimedScorer
-
+scorer = null
+timeLeft = null
 TOTAL_TIME = 30000
-timeLeft = 1
 
 state.create = ->
     # set up background
+    scorer = new TimedScorer
     field = new Field(6, 44)
     field.addScoreListener scorer
     hud = new Hud()
+    timeLeft = 1
     
 state.update = ->
+    if timeLeft <= 0
+        game.state.start 'title'
     hud.showMessage("Color Clear Bonus!", 150) if scorer.getColorBonus()
     hud.showMessage(scorer.getComboMessage()) if scorer.getComboMessage()
     timeLeft += scorer.getTimeBonusAndReset()
@@ -27,5 +31,9 @@ state.update = ->
     timeLeft -= game.time.physicsElapsedMS / TOTAL_TIME
     hud.updateTimer(timeLeft) if timeLeft > 0
     hud.updateScore(scorer.getScore())
+    
+state.shutdown = ->
+    field = null
+    scorer = null
 
 module.exports = state

@@ -3,7 +3,7 @@ c = require('../util/const')
 state = {}
 
 state.preload = ->
-    Phaser.Canvas.setImageRenderingCrisp(game.canvas)
+    #Phaser.Canvas.setImageRenderingCrisp(game.canvas)
     game.scale.scaleMode = Phaser.ScaleManager.SHOW_ALL
     game.scale.pageAlignHorizontally = true
     game.scale.pageAlignVertically = true

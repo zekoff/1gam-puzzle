@@ -10,18 +10,22 @@ hud = null
 field = null
 scorer = new TimedScorer
 
-TOTAL_TIME = 15000
+TOTAL_TIME = 30000
 timeLeft = 1
 
 state.create = ->
-    hud = new Hud()
+    # set up background
     field = new Field(6, 44)
     field.addScoreListener scorer
+    hud = new Hud()
     
 state.update = ->
-    timeLeft += scorer.getTimeBonus()
+    hud.showMessage("Color Clear Bonus!", 150) if scorer.getColorBonus()
+    hud.showMessage(scorer.getComboMessage()) if scorer.getComboMessage()
+    timeLeft += scorer.getTimeBonusAndReset()
     timeLeft = 1 if timeLeft > 1
     timeLeft -= game.time.physicsElapsedMS / TOTAL_TIME
     hud.updateTimer(timeLeft) if timeLeft > 0
+    hud.updateScore(scorer.getScore())
 
 module.exports = state

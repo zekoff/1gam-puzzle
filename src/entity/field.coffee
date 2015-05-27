@@ -23,24 +23,24 @@ class Field extends Phaser.Group
             emitter = game.add.emitter(0, 0, 400)
             emitter.makeParticles("#{color}_square")
             emitter.setScale(0.2, 0.4, 0.2, 0.4)
-            @particleEmitters[color] = emitter
+            @_particleEmitters[color] = emitter
         for n in [1..7]
             dingSounds[n] = game.add.audio("ding#{n}")
                 
     currentJewel: null
-    scoreListeners: []
-    particleEmitters: {}
+    _scoreListeners: []
+    _particleEmitters: {}
     dingSounds = {}
     
     addScoreListener: (listener) ->
-        @scoreListeners.push listener
+        @_scoreListeners.push listener
         listener.setField @
     
     emitParticles: (color, x, y) ->
-        @particleEmitters[color].x = @x + x
-        @particleEmitters[color].y = @y + y
+        @_particleEmitters[color].x = @x + x
+        @_particleEmitters[color].y = @y + y
         # despite what the docs say, must explicitly pass # of particles
-        @particleEmitters[color].start(true, 200, null, 10)
+        @_particleEmitters[color].start(true, 200, null, 10)
     
     getAdjacentJewels: (jewel) ->
         console.log 'returning adjacent jewels'
@@ -49,11 +49,11 @@ class Field extends Phaser.Group
         toDestroy = []
         toDestroy.push jewel
         @clearJewel jewel, toDestroy
-        @scoreListeners.forEach (scorer) ->
+        @_scoreListeners.forEach (scorer) ->
             scorer.preDestroy toDestroy
         toDestroy.forEach (j) =>
             j.kill()
-        @scoreListeners.forEach (scorer) ->
+        @_scoreListeners.forEach (scorer) ->
             scorer.preRefill()
         toDestroy.forEach (j) =>
             newJ = new Jewel(@, j.tileX, j.tileY)
@@ -64,8 +64,8 @@ class Field extends Phaser.Group
                 y: 1
             }, 300).start()
             @emitParticles(j.color, j.x, j.y)
-        #n = game.rnd.integerInRange 1, 7
-        #game.add.audio("ding#{n}").play()
+        toDestroy.forEach (j) ->
+            j.destroy()
         dingSounds[game.rnd.integerInRange 1, 7].play()
             
     swapCurrentJewelWith: (target) ->

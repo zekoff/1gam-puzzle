@@ -43,6 +43,7 @@ class Hud extends Phaser.Group
     showMessage: (text, y = 180, x = c.WORLD_WIDTH_PX / 2) ->
         message = game.add.text(x, y, text, MESSAGE_STYLE, @)
         message.anchor.set(0.5)
+        message.angle = -15
         messages.add message
         
     updateScore: (score) ->

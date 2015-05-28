@@ -9,7 +9,7 @@ class Hud extends Phaser.Group
         fontVariant: 'small-caps'
         fill: 'white'
     }
-    MESSAGE_LENGTH = 3000
+    MESSAGE_LENGTH = 2500
     MESSAGE_STYLE = {
         font: 'sans-serif'
         fontSize: 16
@@ -52,7 +52,7 @@ class Hud extends Phaser.Group
     update: ->
         messages.forEachAlive (message) ->
             message.alpha -= game.time.physicsElapsedMS / MESSAGE_LENGTH
-            message.y -= game.time.physicsElapsedMS / MESSAGE_LENGTH * 60
+            message.y -= game.time.physicsElapsedMS / MESSAGE_LENGTH * 100
             if message.alpha < 0
                 message.destroy()
         

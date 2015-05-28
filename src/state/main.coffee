@@ -13,7 +13,7 @@ field = null
 scorer = null
 timeLeft = null
 gameOverBool = null
-TOTAL_TIME = 30000
+TOTAL_TIME = 300
 
 state.create = ->
     # set up background
@@ -27,12 +27,7 @@ state.create = ->
 state.update = ->
     if timeLeft <= 0 && !gameOverBool
         gameOverBool = true
-        # create new BitmapData
-        bmp = game.add.bitmapData(c.WORLD_WIDTH_PX, c.WORLD_HEIGHT_PX, 'mask', true)
-        bmp.fill(0,0,0,0.7)
-        mask = game.add.image(0,0,game.cache.getBitmapData('mask'))
-        mask.inputEnabled = true
-        new GameOver
+        new GameOver(scorer.getScore())
     hud.showMessage("Color Clear Bonus!", 150) if scorer.getColorBonus()
     hud.showMessage(scorer.getComboMessage()) if scorer.getComboMessage()
     timeLeft += scorer.getTimeBonusAndReset()

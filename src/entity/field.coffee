@@ -64,8 +64,9 @@ class Field extends Phaser.Group
                 y: 1
             }, 300).start()
             @emitParticles(j.color, j.x, j.y)
-        toDestroy.forEach (j) ->
-            j.destroy()
+        # This causes errors... but need to clean up these jewels somehow
+        #toDestroy.forEach (j) ->
+            #j.destroy()
         dingSounds[game.rnd.integerInRange 1, 7].play()
             
     swapCurrentJewelWith: (target) ->

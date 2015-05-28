@@ -52,8 +52,8 @@ class TimedScorer
         1 = completely refill the timer
         0 = don't refill any of the timer
         ###
-        @score += Math.floor(lastDestroyed ** 1.5)
-        @score += Math.floor(5 ** 1.5) if lastColorBonus
+        @score += Math.floor((lastDestroyed ** 1.5) * 10)
+        @score += Math.floor((5 ** 1.5) * 10) if lastColorBonus
         bonus = lastDestroyed ** 2 / 1000
         lastDestroyed = 0
         lastColorBonus = false

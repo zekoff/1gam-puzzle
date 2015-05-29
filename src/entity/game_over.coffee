@@ -26,5 +26,14 @@ class GameOver extends Phaser.Group
         })
         scoreText.anchor.set 0.5
         @add scoreText
+        okText = game.make.text(86 - @x, 105, "OK", {
+            font: 'sans-serif'
+            fontSize: 16
+            fontVariant: 'small-caps'
+            fill: 'white'
+            align: 'center'
+        })
+        okText.anchor.set 0.5
+        @add okText
         
 module.exports = GameOver

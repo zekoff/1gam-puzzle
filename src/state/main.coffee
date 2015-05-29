@@ -13,7 +13,7 @@ field = null
 scorer = null
 timeLeft = null
 gameOverBool = null
-TOTAL_TIME = 300
+TOTAL_TIME = 30000
 
 state.create = ->
     # set up background
@@ -39,5 +39,8 @@ state.update = ->
 state.shutdown = ->
     field = null
     scorer = null
+    
+state.paused = ->
+    hud.pauseGame()
 
 module.exports = state

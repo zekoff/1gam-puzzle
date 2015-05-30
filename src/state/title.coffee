@@ -1,6 +1,7 @@
 c = require '../util/const'
 W = c.WORLD_WIDTH_PX
 H = c.WORLD_HEIGHT_PX
+colors = c.COLORS
 
 state = {}
 
@@ -28,8 +29,7 @@ buttonStyle =
     
 state.create = ->
     game.add.image 0, 0, 'background'
-    # add some wiggling gem doodads
-    for c in c.COLORS
+    for c in colors
         x = game.rnd.integerInRange(0, W)
         y = game.rnd.integerInRange(0, H)
         gem = game.add.image(x, y, "#{c}_square")
@@ -39,7 +39,6 @@ state.create = ->
             -1, true)
         tween.repeatDelay(game.rnd.integerInRange(500, 1500))
         tween.start()
-        
     text = game.add.text W / 4, H / 4, "1gam", textStyle
     text.anchor.set 0.5
     text.angle = -15

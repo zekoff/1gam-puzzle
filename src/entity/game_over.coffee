@@ -32,6 +32,8 @@ class GameOver extends Phaser.Group
             fontVariant: 'small-caps'
             fill: 'white'
             align: 'center'
+            stroke: 'black'
+            strokeThickness: 2
         })
         okText.anchor.set 0.5
         @add okText

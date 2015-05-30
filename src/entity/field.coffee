@@ -73,6 +73,7 @@ class Field extends Phaser.Group
         [oldX, oldY] = [@currentJewel.prevX, @currentJewel.prevY]
         @currentJewel.sendToTile(target.tileX, target.tileY)
         target.sendToTile(oldX, oldY)
+        global.TOTAL_TIME--
         
     clearJewel: (jewel, toDestroy) ->
         [x, y] = conv.worldToTile(jewel.x, jewel.y)

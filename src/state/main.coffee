@@ -13,7 +13,7 @@ field = null
 scorer = null
 timeLeft = null
 gameOverBool = null
-TOTAL_TIME = 30000
+global.TOTAL_TIME = 30000
 
 state.create = ->
     game.add.image(0, 0, 'background')

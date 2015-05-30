@@ -16,6 +16,7 @@ state.create = ->
     for n in [1..7]
         game.load.audio("ding#{n}", "sounds/Pickup_Coin#{n}.ogg")
     game.load.image("timer_bar", "timer_bar.png")
+    game.load.image('background', 'background.png')
     bmp = game.add.bitmapData(c.WORLD_WIDTH_PX, c.WORLD_HEIGHT_PX, 'mask', true)
     bmp.fill(0, 0, 0, 0.7)
     game.load.start()

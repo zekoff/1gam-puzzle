@@ -16,7 +16,7 @@ gameOverBool = null
 TOTAL_TIME = 30000
 
 state.create = ->
-    # set up background
+    game.add.image(0, 0, 'background')
     scorer = new TimedScorer
     field = new Field(6, 44)
     field.addScoreListener scorer

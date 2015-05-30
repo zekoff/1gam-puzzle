@@ -40,7 +40,4 @@ state.shutdown = ->
     field = null
     scorer = null
     
-state.paused = ->
-    hud.pauseGame()
-
 module.exports = state

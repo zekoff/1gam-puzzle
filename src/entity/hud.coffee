@@ -37,18 +37,16 @@ class Hud extends Phaser.Group
             SCORE_STYLE, @)
         scoreText.anchor.set(0.5)
         @timerBackground.inputEnabled = true
-        @timerBackground.events.onInputUp.add @pauseGame
+        @timerBackground.events.onInputUp.add ->
+            game.paused = true
+            mask = game.add.image(0, 0, game.cache.getBitmapData('mask'))
+            text = game.add.text(86,153,"PAUSED",{fill:'white', fontSize: 16})
+            text.anchor.set 0.5
+            game.input.onDown.addOnce ->
+                mask.destroy()
+                text.destroy()
+                game.paused = false
             
-    pauseGame: ->
-        mask = game.add.image(0, 0, game.cache.getBitmapData('mask'))
-        text = game.add.text(86,153,"PAUSED",{fill:'white', fontSize: 16})
-        text.anchor.set 0.5
-        game.input.onDown.addOnce ->
-            mask.destroy()
-            text.destroy()
-            game.paused = false
-        game.paused = true
-        
     updateTimer: (percentage) ->
         @timer.width = TIMER_WIDTH * percentage
         if percentage > .7

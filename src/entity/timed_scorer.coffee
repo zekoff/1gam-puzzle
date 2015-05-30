@@ -42,12 +42,16 @@ class TimedScorer
         return fullClearBonus
         
     getComboMessage: ->
-        if @getNumberDestroyed() > 13
-            return "Outrageous Combo!"
-        else if @getNumberDestroyed() > 9
-            return "Massive Combo!"
+        if @getNumberDestroyed() > 33
+            return "Extraordinary!"
+        else if @getNumberDestroyed() > 24
+            return "Outrageous!"
+        else if @getNumberDestroyed() > 17
+            return "Explosive!"
+        else if @getNumberDestroyed() > 10
+            return "Great!"
         else if @getNumberDestroyed() > 5
-            return "Big Combo!"
+            return "Nice!"
         return null
 
     getTimeBonusAndReset: ->

@@ -44,13 +44,21 @@ state.create = ->
     text.angle = -15
     title = game.add.text W / 2, H / 3, "puzzle", titleStyle
     title.anchor.set 0.5
-    button = game.add.button W / 2, H / 4 * 3, 'timer_bar', ->
+    button = game.add.button W / 2, H / 5 * 3, 'timer_bar', ->
         game.state.start 'main'
     button.anchor.set 0.5
     button.tint = 0x00FF00
     button.width = W/3*2
     button.height = 30
-    buttonText = game.add.text W / 2, H / 4 * 3, "Arcade Mode", buttonStyle
+    buttonText = game.add.text W / 2, H / 5 * 3, "Arcade Mode", buttonStyle
     buttonText.anchor.set 0.5
+    button2 = game.add.button W / 2, H / 5 * 4, 'timer_bar', ->
+        game.state.start 'freeplay'
+    button2.anchor.set 0.5
+    button2.tint = 0x00FF00
+    button2.width = W/3*2
+    button2.height = 30
+    button2Text = game.add.text W / 2, H / 5 * 4, "Free Play", buttonStyle
+    button2Text.anchor.set 0.5
     
 module.exports = state

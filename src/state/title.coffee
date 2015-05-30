@@ -61,4 +61,12 @@ state.create = ->
     button2Text = game.add.text W / 2, H / 5 * 4, "Free Play", buttonStyle
     button2Text.anchor.set 0.5
     
+    fsb = game.add.button 0, H, 'timer_bar', ->
+        game.scale.startFullScreen()
+    fsb.width = 20
+    fsb.height = 20
+    fsb.anchor.y = 1
+    fst = game.add.text 0, H + 5, "FS", {font: '12pt sans-serif'}
+    fst.anchor.y = 1
+    
 module.exports = state

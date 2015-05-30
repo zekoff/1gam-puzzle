@@ -1,6 +1,7 @@
-# run this script in a separate terminal instance to start file watching
-# TODO? switch to coffeeify plugin for browserify, rather than coffee --watch
-alias commit='git add --all; git commit; git push'
+# run this script in a terminal instance to start file watching
+
 coffee --watch --output bin/ --compile src/ &
 watchify bin/startup.js -o bundle.js --verbose --debug
-# beefy can't be configured to serve over anything but localhost
+
+# also, here's a handy alias
+# alias commit='git add --all; git commit; git push'

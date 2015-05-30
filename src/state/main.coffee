@@ -28,6 +28,7 @@ state.update = ->
     if timeLeft <= 0 && !gameOverBool
         gameOverBool = true
         new GameOver(scorer.getScore())
+    hud.showMessage("Full Clear Bonus!", 120) if scorer.getFullClearBonus()
     hud.showMessage("Color Clear Bonus!", 150) if scorer.getColorBonus()
     hud.showMessage(scorer.getComboMessage()) if scorer.getComboMessage()
     timeLeft += scorer.getTimeBonusAndReset()

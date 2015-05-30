@@ -5,6 +5,7 @@ class TimedScorer
     lastDestroyed = 0
     lastColor = null
     lastColorBonus = false
+    fullClearBonus = false
     
     score: 0
     
@@ -18,6 +19,7 @@ class TimedScorer
         ###
         lastDestroyed = toDestroy.length
         lastColor = toDestroy[0].color
+        fullClearBonus = true if lastDestroyed == 40
     
     preRefill: ->
         ###
@@ -35,6 +37,9 @@ class TimedScorer
         
     getColorBonus: ->
         return lastColorBonus && @getNumberDestroyed() > 4
+        
+    getFullClearBonus: ->
+        return fullClearBonus
         
     getComboMessage: ->
         if @getNumberDestroyed() > 13
@@ -54,9 +59,11 @@ class TimedScorer
         ###
         @score += Math.floor((lastDestroyed ** 1.5) * 10)
         @score += Math.floor((5 ** 1.5) * 10) if lastColorBonus
+        @score += 1000 if fullClearBonus
         bonus = lastDestroyed ** 2 / 1000
         lastDestroyed = 0
         lastColorBonus = false
+        fullClearBonus = false
         return bonus
     
     getScore: ->

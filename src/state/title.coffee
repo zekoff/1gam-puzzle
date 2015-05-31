@@ -29,16 +29,20 @@ buttonStyle =
     
 state.create = ->
     game.add.image 0, 0, 'background'
-    for c in colors
-        x = game.rnd.integerInRange(0, W)
-        y = game.rnd.integerInRange(0, H)
-        gem = game.add.image(x, y, "#{c}_square")
-        gem.angle = game.rnd.integerInRange(-45, 45)
-        tween = game.tweens.create(gem).to({angle: gem.angle + 10}, 300,
-            Phaser.Easing.Sinusoidal.InOut, true, game.rnd.integerInRange(0, 2000),
-            -1, true)
-        tween.repeatDelay(game.rnd.integerInRange(500, 1500))
-        tween.start()
+    for i in [1..3]
+        for c in colors
+            x = game.rnd.integerInRange(0, W)
+            y = game.rnd.integerInRange(0, H)
+            gem = game.add.image(x, y, "#{c}_square")
+            gem.angle = game.rnd.integerInRange(-45, 45)
+            angleChange = game.rnd.integerInRange(-30, 30)
+            newAnchor = game.rnd.frac()
+            gem.anchor.set newAnchor
+            tween = game.tweens.create(gem).to({angle: gem.angle + angleChange}, 300,
+                Phaser.Easing.Sinusoidal.InOut, true, game.rnd.integerInRange(0, 2000),
+                -1, true)
+            tween.repeatDelay(game.rnd.integerInRange(500, 1500))
+            tween.start()
     text = game.add.text W / 4, H / 4, "1gam", textStyle
     text.anchor.set 0.5
     text.angle = -15
@@ -61,12 +65,14 @@ state.create = ->
     button2Text = game.add.text W / 2, H / 5 * 4, "Free Play", buttonStyle
     button2Text.anchor.set 0.5
     
-    fsb = game.add.button 0, H, 'timer_bar', ->
+    fsb = game.add.button 86, H, 'timer_bar', ->
         game.scale.startFullScreen()
-    fsb.width = 20
-    fsb.height = 20
+    fsb.width = 80
+    fsb.height = 18
     fsb.anchor.y = 1
-    fst = game.add.text 0, H + 5, "FS", {font: '12pt sans-serif'}
+    fsb.anchor.x = 0.5
+    fst = game.add.text 86, H + 3, "Go Fullscreen", {font: '8pt sans-serif'}
+    fst.anchor.x = 0.5
     fst.anchor.y = 1
     
 module.exports = state

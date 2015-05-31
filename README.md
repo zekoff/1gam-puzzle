@@ -1,5 +1,12 @@
 # 1gam-puzzle
 
+Tools used: Phaser, Cloud9, Coffeescript, Kenny assets, Google Image Search,
+bfxr
+
+[Live version](http://zekoff.com/1gam-puzzle).
+
+---
+
 Steps to set up development environment:
 * `npm install -g browserify watchify coffee-script`
 * `./dev.sh`
